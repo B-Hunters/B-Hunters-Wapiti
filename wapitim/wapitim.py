@@ -94,7 +94,7 @@ class wapitim(BHunters):
                     if item not in discorddata:
                         
                         discorddata.append(item)
-                discorddata="\n".join(discorddata)
+                discorddata="\n\n".join(discorddata)
                 
                 max_length = 4000
                 discorddata_chunks = [discorddata[i:i + max_length] for i in range(0, len(discorddata), max_length)]
