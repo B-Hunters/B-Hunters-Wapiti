@@ -91,7 +91,9 @@ class wapitim(BHunters):
                 discorddata=[]
                 for item in result:
                     # output = []
-                    discorddata.append(item)
+                    if item not in discorddata:
+                        
+                        discorddata.append(item)
                 discorddata="\n".join(discorddata)
                 
                 max_length = 4000
