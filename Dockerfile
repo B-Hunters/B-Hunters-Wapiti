@@ -12,4 +12,4 @@ WORKDIR /app/service
 COPY wapitim /app/service/wapitim
 CMD [ "python", "-m", "wapitim" ]
 
-ENTRYPOINT [ "/bin/bash" ]
+# ENTRYPOINT [ "/bin/bash" ]
