@@ -3,8 +3,8 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckod
 RUN tar xvf geckodriver-v0.36.0-linux64.tar.gz
 RUN rm geckodriver-v0.36.0-linux64.tar.gz
 RUN mv geckodriver /usr/bin/
-# b-hunters==1.1.16
-RUN pip install  b-hunters==1.1.16 wapiti3
+# b-hunters==1.2.0
+RUN pip install  b-hunters==1.2.0 wapiti3
 RUN wapiti --update
 # WORKDIR /app/service
 # COPY ./xray/ /xray/
