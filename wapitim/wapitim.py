@@ -39,7 +39,17 @@ class wapitim(BHunters):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-    def wapiticommand(self,url):
+    def header_args(self,headers):
+        """The arguments that give wapiti the session headers.
+
+        Wapiti takes them as ``-H "name: value"`` and sends them with
+        every request it makes.
+        """
+        args=[]
+        for name,value in headers.items():
+            args += ["-H", f"{name}: {value}"]
+        return args
+    def wapiticommand(self,url,headers):
         result=[]
         result403=[]
         newurls=[]
@@ -47,7 +57,7 @@ class wapitim(BHunters):
 
         try:
             try:
-                output = subprocess.run(["wapiti","-u",url,'-m',os.getenv("modules","backup,brute_login_form,cms,cookieflags,crlf,csp,csrf,exec,file,htaccess,htp,http_headers,https_redirect,ldap,log4shell,methods,network_device,nikto,permanentxss,redirect,shellshock,spring4shell,sql,ssl,ssrf,takeover,timesql,upload,wapp,wp_enum,xss,xxe"),'-f','json',"-o",outputfile],capture_output=True,text=True,timeout=10000, cwd='/')  
+                output = subprocess.run(["wapiti","-u",url,'-m',os.getenv("modules","backup,brute_login_form,cms,cookieflags,crlf,csp,csrf,exec,file,htaccess,htp,http_headers,https_redirect,ldap,log4shell,methods,network_device,nikto,permanentxss,redirect,shellshock,spring4shell,sql,ssl,ssrf,takeover,timesql,upload,wapp,wp_enum,xss,xxe"),'-f','json',"-o",outputfile]+self.header_args(headers),capture_output=True,text=True,timeout=10000, cwd='/')
             except subprocess.TimeoutExpired:
                 self.log.warning(f"Wapiti process timed out for URL: {url}")
             if os.path.exists(outputfile):
@@ -64,8 +74,8 @@ class wapitim(BHunters):
 
         return result
                 
-    def scan(self,url):        
-        result=self.wapiticommand(url)
+    def scan(self,url,headers):
+        result=self.wapiticommand(url,headers)
         return result
         
     def process(self, task: Task) -> None:
@@ -84,7 +94,8 @@ class wapitim(BHunters):
         report_id=task.payload_persistent["report_id"]
         self.update_task_status(domain,"Started")
         try:
-            result=self.scan(url)
+            headers=self.auth_headers(task)
+            result=self.scan(url,headers)
             self.waitformongo()
             collection=self.db["reports"]
             if result !=[]:
