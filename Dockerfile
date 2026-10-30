@@ -4,7 +4,12 @@ RUN tar xvf geckodriver-v0.36.0-linux64.tar.gz
 RUN rm geckodriver-v0.36.0-linux64.tar.gz
 RUN mv geckodriver /usr/bin/
 # b-hunters==1.2.0
-RUN pip install  b-hunters==1.2.0 wapiti3
+# The shared class is built from this repository, not from the published
+# release: a worker that calls auth_headers(task) against a release that
+# does not have it fails inside the scan.  scripts/build_workers.sh passes
+# the local wheel; the default is the published release.
+ARG B_HUNTERS_WHEEL=b-hunters==1.2.0
+RUN pip install  ${B_HUNTERS_WHEEL} wapiti3
 RUN wapiti --update
 # WORKDIR /app/service
 # COPY ./xray/ /xray/
