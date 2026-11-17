@@ -3,7 +3,7 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckod
 RUN tar xvf geckodriver-v0.36.0-linux64.tar.gz
 RUN rm geckodriver-v0.36.0-linux64.tar.gz
 RUN mv geckodriver /usr/bin/
-# b-hunters==1.2.0
+# b-hunters==1.4.1
 # The shared class is built from this repository, not from the published
 # release: a worker that calls auth_headers(task) against a release that
 # does not have it fails inside the scan.  scripts/build_workers.sh passes
