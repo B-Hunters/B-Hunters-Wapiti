@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
 RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.36.0/geckodriver-v0.36.0-linux64.tar.gz
 RUN tar xvf geckodriver-v0.36.0-linux64.tar.gz
 RUN rm geckodriver-v0.36.0-linux64.tar.gz
